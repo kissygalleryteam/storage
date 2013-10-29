@@ -1,9 +1,9 @@
 /*
 combined files : 
 
-gallery/storage/1.0/xd
-gallery/storage/1.0/basic
-gallery/storage/1.0/proxy
+gallery/storage/1.1/xd
+gallery/storage/1.1/basic
+gallery/storage/1.1/proxy
 
 */
 /**
@@ -28,7 +28,7 @@ gallery/storage/1.0/proxy
  *   
  *   TODO 如何移除 
  */
-KISSY.add('gallery/storage/1.0/xd', function(S, Event, JSON) {
+KISSY.add('gallery/storage/1.1/xd', function(S, Event, JSON) {
     var guid = 0;
     var UID_FROM = '__ga_xd_from';
     var UID_TO = '__ga_xd_to';
@@ -297,7 +297,7 @@ KISSY.add('gallery/storage/1.0/xd', function(S, Event, JSON) {
 	
 /**
  * 由数据代理调用
- *
+ * 
  * @author luics (鬼道)
  */
 
@@ -306,7 +306,7 @@ KISSY.add('gallery/storage/1.0/xd', function(S, Event, JSON) {
  * 封装 store.js
  * @see https://github.com/marcuswestin/store.js
  */
-KISSY.add('gallery/storage/1.0/basic', function(S, JSON) {
+KISSY.add('gallery/storage/1.1/basic', function(S, JSON) {
     // 考虑到 ls 和 user data 均失效的情况
     window.JSON = window.JSON || JSON;
 
@@ -423,21 +423,20 @@ KISSY.add('gallery/storage/1.0/basic', function(S, JSON) {
             }
             function withIEStorage(storeFunction) {
                 return function() {
-                    // FIXED why? unshift load 均报过错
-
+                    var args = Array.prototype.slice.call(arguments, 0)
+                    args.unshift(storage)
+                    // See http://msdn.microsoft.com/en-us/library/ms531081(v=VS.85).aspx
+                    // and http://msdn.microsoft.com/en-us/library/ms531424(v=VS.85).aspx
+                    storageOwner.appendChild(storage)
+                    storage.addBehavior('#default#userData')
+                    // FIXED why?
                     try {
-                        var args = Array.prototype.slice.call(arguments, 0)
-                        args.unshift(storage)
-                        // See http://msdn.microsoft.com/en-us/library/ms531081(v=VS.85).aspx
-                        // and http://msdn.microsoft.com/en-us/library/ms531424(v=VS.85).aspx
-                        storageOwner.appendChild(storage)
-                        storage.addBehavior('#default#userData')
                         storage.load(localStorageName)
-                        var result = storeFunction.apply(store, args)
-                        storageOwner.removeChild(storage)
-                        return result
                     } catch (e) {
                     }
+                    var result = storeFunction.apply(store, args)
+                    storageOwner.removeChild(storage)
+                    return result
                 }
             }
 
@@ -521,7 +520,7 @@ KISSY.add('gallery/storage/1.0/basic', function(S, JSON) {
  * 
  * @author luics (鬼道)
  */
-KISSY.add('gallery/storage/1.0/proxy', function(S, Event, JSON, XD, Storejs) {
+KISSY.add('gallery/storage/1.1/proxy', function(S, Event, JSON, XD, Storejs) {
     var UID_FROM = '__ga_xd_from';
     var UID_TO = '__ga_xd_to';
     var Proxy = {};

@@ -5,8 +5,7 @@
  * @date 2013-07-25
  */
 //CASE js编码应该utf8
-KISSY.add('gallery/storage/1.1/conf', function(S) {
-
+KISSY.add('gallery/storage/1.1/conf', function() {
     /**
      * CASE 不能使用 ks-debug，巨大的坑，多谢 @游侠 提醒
      */
@@ -30,6 +29,11 @@ KISSY.add('gallery/storage/1.1/conf', function(S) {
         PROXY: 'http://a.tbcdn.cn/s/kissy/gallery/storage/1.1/proxy.html',
         PROXY_TMALL: 'http://www.tmall.com/go/act/stp-tm.php',
         PROXY_TAOBAO: 'http://www.taobao.com/go/act/stp-tb.php',
+        // 用于标识 xd 实例
+        XD_TOKEN: '__ga_xd_token',
+        // UIDs 保存本次通信双方的 id
+        UID_FROM: '__ga_xd_from11', // 区别于1.0，避免干扰到1.0
+        UID_TO: '__ga_xd_to11',
         M: {
             G: MINER + '&t=g',
             P: MINER + '&t=p'
@@ -49,6 +53,7 @@ KISSY.add('gallery/storage/1.1/conf', function(S) {
             IFRAME_TIMEOUT: 'iframeTimeout',
             // other
             IFRAME: 'iframe',
+            TOKEN: 'token',
             XD: 'xd',
             CALLBACK_LIST: 'callbackList',
             CACHED_ACTION_LIST: 'cachedActionList',

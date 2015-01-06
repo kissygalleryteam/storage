@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>storage</title>
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://docs.kissyui.com/1.4/source/guideline/templates/assets/com-prettify.css">
+    <link rel="stylesheet" href="http://docs.kissyui.com/1.4/source/guideline/templates/assets/com.css">
+    <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="http://cdn.staticfile.org/prettify/r298/prettify.min.js"></script>
+    <script src="http://g.tbcdn.cn/kissy/k/1.4.8/seed-min.js" data-config="{combine:true}"></script>
+  </head>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <div id="header"><a href="http://docs.kissyui.com/" class="logo">kissy</a>
+      <nav><a href="http://docs.kissyui.com/1.4/docs/html/coms.html">优秀组件推荐</a></nav>
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3 bs-docs-sidebar">
+          <ul data-spy="affix" data-offset-top="0" class="nav nav-list bs-docs-sidenav"></ul>
+        </div>
+        <div class="span9 bs-docs-content">
+          <h1 data-id="undefined" class="title">storage</h1>
+          <p class="author-wrapper"><span>组件有问题？旺旺联系作者：</span><a href="https://github.com/luics" target="_blank" data-name="鬼道" class="author"><img src="https://avatars.githubusercontent.com/u/1018815?v=2&amp;s=60" alt="鬼道"></a><span class="author-name">鬼道</span>
+          </p>
+          <div class="common-link"><a href="../demo/index.html" target="_blank" class="demo">示例</a><a href="https://github.com/kissygalleryteam/storage" target="_blank" class="source">源码</a></div>
+          <p class="com-info"><span class="info-label">View</span><span data-com="storage" class="J_View">1254</span></p>
+          <p class="com-info"><span class="info-label">所属分类</span><a href="http://kpm.taobao.net/list/框架&amp;工具">框架&amp;工具</a>
+          </p>
+          <p class="com-info"><span class="info-label">kissy版本</span><span>1.4.X</span>
+          </p><h2 id="-">综述</h2>
+<blockquote>
+<p>请加旺旺交流群 1227264062</p>
+</blockquote>
+<p>storage 是跨终端、跨域的存储组件：</p>
+<ol>
+<li>兼容 IE 6+；Chrome、Firefox、Safari</li>
+<li>不使用 Flash 方案，完美支持移动浏览器</li>
+<li>跨子域、主域的数据存取，且不会改写 document.domain</li>
+<li>支持 Object、Array 等复杂对象存取</li>
+<li>每天十亿级调用次数的考验，稳定可靠</li>
+</ol>
+<p>更多信息</p>
+<ul>
+<li><a href="http://gallery.kissyui.com/storage/1.1/demo/index.html">Demo</a></li>
+<li><a href="https://github.com/luics/storage/wiki/Storage">技术方案详解</a></li>
+<li>作者：鬼道</li>
+</ul>
+<h2 id="-">组件使用</h2>
+<blockquote>
+<p>Kissy 1.3.0+ 无需此段代码</p>
+</blockquote>
+<pre><code class="lang-javascript">KISSY.config({
+    packages:[
+        {
+            name:&quot;gallery&quot;,
+            path:&quot;http://a.tbcdn.cn/s/kissy/&quot;,
+            charset:&quot;utf-8&quot;
+        }
+    ]
+});
+</code></pre>
+<h2 id="api">API</h2>
+<h3 id="get-set">get/set</h3>
+<pre><code class="lang-javascript">S.use(&#39;gallery/storage/1.1/index&#39;, function (S, Storage) {
+
+    var storage = new Storage();
+
+    storage.set({k: &#39;key&#39;, v: &#39;value&#39;, success: function() {
+        storage.get({k: &#39;key&#39;, success: function(data) {
+            console.log(&#39;获取的值：&#39;, data);
+        }});
+    }});
+});
+</code></pre>
+<ol>
+<li><code>k</code> key</li>
+<li><code>v</code> value</li>
+<li><code>success</code> 回调，如遇超时等异常，参数<code>data</code>为<code>undefined</code>，详见<a href="https://github.com/luics/storage/wiki/Storage#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">此处讨论</a></li>
+</ol>
+<h3 id="remove-clear">remove/clear</h3>
+<pre><code class="lang-javascript">S.use(&#39;gallery/storage/1.1/index&#39;, function (S, Storage) {  
+
+    var storage = new Storage();
+
+    // 删除数据&#39;key&#39; 
+    storage.remove({k: &#39;key&#39;, success: function() {
+    }});
+
+    // 清空所有字段
+    storage.clear({success: function() {
+    }});
+});
+</code></pre>
+<h3 id="-">实例化</h3>
+<pre><code class="lang-javascript">S.use(&#39;gallery/storage/1.1/index&#39;, function (S, Storage) {
+
+    var storage = new Storage({
+        &#39;proxy&#39;: &#39;tmall&#39; 
+    });
+});
+</code></pre>
+<p>所有参数均为可选：</p>
+<ol>
+<li><code>prefix</code> key 前缀，详见下文“推荐命名”</li>
+<li><code>proxy</code> 数据存储在代理页所在的域，选择不同的代理页可以让数据存储在不同的域下<ol>
+<li><code>common</code>：(默认) <a href="http://www.tmall.com/go/act/stp-tm.php">http://www.tmall.com/go/act/stp-tm.php</a> </li>
+<li><code>tmall</code>：<a href="http://www.tmall.com/go/act/stp-tm.php">http://www.tmall.com/go/act/stp-tm.php</a></li>
+<li><code>taobao</code>：<a href="http://www.taobao.com/go/act/stp-tb.php">http://www.taobao.com/go/act/stp-tb.php</a></li>
+<li><code>{proxy-url}</code>：<a href="http://www.tmall.com/go/act/stp-tm.php">proxy 页面</a> 部署在特定域名下的 URL</li>
+</ol>
+</li>
+<li><code>onload</code> 代理页加载成功的回调    </li>
+</ol>
+<h2 id="-">推荐命名</h2>
+<p>命名规则</p>
+<ul>
+<li>推荐小骆驼（首字母小写其他词首大写），如<code>myFieldName</code></li>
+</ul>
+<p>防冲突机制</p>
+<ul>
+<li>推荐类文件路径格式<code>xx/yy/zz</code></li>
+<li>阿里系较熟悉的 package name 可以直接作为前缀</li>
+<li>没有 package 的场景下可以使用<code>应用/子应用/数据字段名</code></li>
+</ul>
+<h2 id="-">存储上限</h2>
+<blockquote>
+<p>参见<a href="https://github.com/luics/storage/wiki/Storage#%E5%AD%98%E5%82%A8%E4%B8%8A%E9%99%90">此处讨论</a></p>
+</blockquote>
+<p>如果希望独享存储空间，可以：</p>
+<ol>
+<li><a href="http://a.tbcdn.cn/s/kissy/gallery/storage/1.1/proxy.html">代理页</a>部署至特定域</li>
+<li>实例化 Storage 设置代理页地址参数<code>proxy</code></li>
+</ol>
+<h2 id="-">安全</h2>
+<blockquote>
+<p>参见<a href="https://github.com/luics/storage/wiki/Storage#%E5%AE%89%E5%85%A8%E6%80%A7">此处讨论</a></p>
+</blockquote>
+<p>如果不希望存储的数据被第3方访问，可以：</p>
+<ol>
+<li>代理页部署至特定服务器、服务器端控制访问来源</li>
+<li>实例化 Storage 设置代理页地址参数<code>proxy</code></li>
+</ol>
+<p>目前 Storage 部署在 TMS 下的 proxy 均有服务器端一级域白名单过滤，保证数据不被集团以外站点访问。如需改动白名单或自行部署 proxy，请联系 @鬼道 协助处理。</p>
+
+          <div style="display:none;"><script type="text/javascript" src="http://tajs.qq.com/stats?sId=36378479" charset="UTF-8"></script></div>
+          <script src="http://docs.kissyui.com/1.4/source/guideline/templates/assets/com.js"></script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
